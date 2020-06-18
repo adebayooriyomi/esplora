@@ -2,7 +2,6 @@ import Snabbdom from 'snabbdom-pragma'
 import { getMempoolDepth, squashFeeHistogram, feerateCutoff } from '../lib/fees'
 import { formatSat, formatVMB } from './util'
 import layout from './layout'
-import search from './search'
 
 let squashed
 
@@ -10,7 +9,6 @@ export default ({ t, mempool, feeEst, ...S }) => mempool && feeEst && layout(
   <div>
     <div className="jumbotron jumbotron-fluid">
       <div className="container">
-        { search({ t, klass: 'page-search-bar' }) }
         <div>
           <h1 className="transaction-header-title">{t`Mempool`}</h1>
         </div>

@@ -4,9 +4,8 @@ import { updateQuery } from '../util'
 const items  = process.env.MENU_ITEMS && JSON.parse(process.env.MENU_ITEMS)
     , active = process.env.MENU_ACTIVE
 
-const otherTheme = { dark: 'light', light: 'dark' }
 
-export default ({ t, theme, page }) =>
+export default ({ t }) =>
 <div className="dropdown">
   <button className="btn btn-default dropdown-toggle" type="button" >{process.env.MENU_ACTIVE}<span className="caret"></span></button>
   <ul className="navbar-nav">

@@ -1,6 +1,5 @@
 import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
-import search from './search'
 import { formatTime, formatSat, formatNumber } from './util'
 
 const staticRoot = process.env.STATIC_ROOT || ''
@@ -8,14 +7,6 @@ const isTouch = process.browser && ('ontouchstart' in window)
 
 const homeLayout = (body, { t, activeTab, ...S }) => layout(
   <div>
-    <div className="jumbotron jumbotron-fluid">
-      <div className="explorer-title-container">
-        <img className="explorer-title-container_logo" alt="" src={`${staticRoot}img/icons/menu-logo.png`} />
-        <h1 className="explorer-title-container_title">{t(process.env.HOME_TITLE || process.env.SITE_TITLE || 'Block Explorer')}</h1>
-      </div>
-      { search({ t, autofocus: !isTouch }) }
-    </div>
-
     <div className="title-bar-container">
       <div className="title-bar-recent">
         <h1>

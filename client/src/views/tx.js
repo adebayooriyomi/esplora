@@ -1,6 +1,5 @@
 import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
-import search from './search'
 import vinView from './tx-vin'
 import voutView from './tx-vout'
 import privacyAnalysisView from './tx-privacy-analysis'
@@ -17,7 +16,6 @@ export default ({ t, tx, tipHeight, spends, openTx, page, ...S }) => tx && S.txA
   <div>
     <div className="jumbotron jumbotron-fluid transaction-page">
       <div className="container">
-        { search({ t, klass: 'page-search-bar' }) }
         <div>
           <h1 className="transaction-header-title">{t`Transaction`}</h1>
           <div className="block-hash">

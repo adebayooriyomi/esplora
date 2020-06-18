@@ -2,7 +2,6 @@ import Snabbdom from 'snabbdom-pragma'
 import { last } from '../util'
 import { formatNumber, formatJson, formatAssetAmount, formatSat } from './util'
 import layout from './layout'
-import search from './search'
 import { txBox } from './tx'
 import { maxMempoolTxs, assetTxsPerPage as perPage, nativeAssetLabel, nativeAssetName } from '../const'
 
@@ -47,7 +46,6 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
     <div>
       <div className="jumbotron jumbotron-fluid asset-page">
         <div className="container">
-          { search({ t, klass: 'page-search-bar' }) }
           <h1>{t`Asset`}</h1>
           <div className="block-hash">
             <span>{asset.asset_id}</span>

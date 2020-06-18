@@ -1,6 +1,5 @@
 import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
-import search from './search'
 import { txBox } from './tx'
 import { updateQuery } from '../util'
 import { formatTime, formatHex, formatNumber } from './util'
@@ -15,7 +14,6 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
   <div>
     <div className="jumbotron jumbotron-fluid block-page">
       <div className="container">
-        { search({ t, klass: 'page-search-bar' }) }
         <div>
           <h1 className="block-header-title">{t`Block ${formatNumber(b.height)}`}</h1>
           <div className="block-hash"><span>{b.id}</span>

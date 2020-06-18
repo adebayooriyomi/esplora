@@ -1,7 +1,6 @@
 import Snabbdom from 'snabbdom-pragma'
 import { last } from '../util'
 import layout from './layout'
-import search from './search'
 import { txBox } from './tx'
 import { formatSat, formatNumber } from './util'
 import { addrTxsPerPage as perPage, maxMempoolTxs } from '../const'
@@ -40,7 +39,6 @@ export default ({ t, addr, addrQR, addrTxs, goAddr, openTx, spends, tipHeight, l
     <div>
       <div className="jumbotron jumbotron-fluid addr-page">
         <div className="container">
-          { search({ t, klass: 'page-search-bar' }) }
           <div className="row">
             <div className="col-sm-8">
               <h1>{t`Address`}</h1>

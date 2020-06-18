@@ -1,6 +1,5 @@
 import Snabbdom from 'snabbdom-pragma'
 import layout from './layout'
-import search from './search'
 
 const formatError = err =>
   (err.message && err.message.startsWith('Request has been terminated'))
@@ -12,7 +11,6 @@ const formatError = err =>
 export const error = ({ t, error, ...S }) => layout(<div>
   <div className="jumbotron jumbotron-fluid">
     <div className="container text-center"><h1>{ t(formatError(error)) }</h1></div>
-    { search({ t }) }
   </div>
 </div>
 , { t, ...S })
