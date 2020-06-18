@@ -401,7 +401,13 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     on('[data-clipboard-copy]', 'click').subscribe(({ ownerTarget: btn }) => {
       btn.classList.add('show-tooltip')
       setTimeout(_ => btn.classList.remove('show-tooltip'), 700)
-    })
+    });
+
+    // Navbar Dropdown Navigation toggle
+    on(".dropdown-toggle", "click").subscribe(() => {
+      let elem = document.querySelector(".navbar-nav");
+      elem.classList.toggle("open");
+    });
   }
 
   return { DOM: vdom$, HTTP: req$, route: navto$, storage: store$, search: goSearch$, scanner: scanning$, title: title$, state: state$ }
