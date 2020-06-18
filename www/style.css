@@ -141,8 +141,8 @@ table th {
   border-radius: 4px;
   background-color: #111316;
   margin: 35px auto 0 auto;
-  border: 1px solid rgba(255, 187, 0, 1);
-  box-shadow: 0px 0px 6px 0px rgba(251, 192, 53, 1);
+  border: 1px solid rgba(72, 183, 169, 1);
+  box-shadow: none;
 }
 
 .search-bar input {
@@ -163,7 +163,7 @@ table th {
 .search-bar .search-bar-submit {
   height: 100% !important;
   cursor: pointer !important;
-  background-color: transparent;
+  background-color: rgb(69, 176, 163);
   width: 50px;
   outline: none;
   border: none;
@@ -178,6 +178,7 @@ table th {
   background: url(img/icons/search.png);
   content: '';
   display: block;
+  margin: 0 auto;
 }
 
 .search-bar input.search-bar-submit:hover{
