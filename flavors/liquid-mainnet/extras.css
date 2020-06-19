@@ -119,6 +119,40 @@
   display: block;
 }
 
+/* Assets Directory Hightlight */
+
+.asset-highlights{
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  grid-gap: 30px;
+  margin-bottom: 30px;
+}
+
+.highlight{
+  height: 130px;
+  padding: 25px;
+  background: linear-gradient(to right, rgba(28, 33, 39, 1) 0%, rgba(21, 24, 28, 1) 100%);
+}
+
+.highlight-name{
+  display: flex;
+  align-items: center;
+  margin-bottom: 25px;
+  font-weight: bold;
+}
+
+.highlight-value{
+  font-size: 20px;
+}
+
+.highlight-name-icon{
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+  background-color: gray;
+  border-radius: 100%;
+}
+
 @media only screen and (min-width: 851px) {
   .assets-table .assets-table-row .ticker {
     width: 6em;

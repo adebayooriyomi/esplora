@@ -190,6 +190,13 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       }))
 
   // Asset and associated txs (elements only)
+  , assetHighlight$ = !process.env.IS_ELEMENTS
+      ? O.empty()
+      : O.combineLatest(
+          reply("usdt").startWith({}),
+          reply("btse").startWith({}),
+          reply("lcad").startWith({}),
+        )
   , asset$ = !process.env.IS_ELEMENTS ? O.empty() : reply('asset').merge(goAsset$.mapTo(null))
   , assetTxs$ = !process.env.IS_ELEMENTS ? O.empty() : O.merge(
       reply('asset-txs').map(txs => S => txs)
@@ -241,7 +248,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , mempool$, mempoolRecent$, feeEst$
                      , tx$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$, addrQR$
-                     , assetMap$, goAsset$, asset$, assetTxs$
+                     , assetMap$, goAsset$, asset$, assetHighlight$, assetTxs$
                      , isReady$, loading$, page$, view$, title$, theme$
                      })
 
@@ -332,6 +339,33 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                               , d.last_txids.length
                               ? { category: 'asset-txs',  method: 'GET', path: `/asset/${d.asset_id}/txs/chain/${last(d.last_txids)}` }
                               : { category: 'asset-txs',  method: 'GET', path: `/asset/${d.asset_id}/txs` }])
+    
+    // fetch assetUSDT with ID hard coded 
+    ,!process.env.IS_ELEMENTS
+      ? O.empty()
+      : O.of({
+          category: "usdt",
+          method: "GET",
+          path: "/asset/ce091c998b83c78bb71a632313ba3760f1763d9cfcffae02258ffa9865a37bd2",
+        })
+    
+    // fetch assetBTSE with ID hard coded 
+    , !process.env.IS_ELEMENTS
+    ? O.empty()
+    : O.of({
+        category: "btse",
+        method: "GET",
+        path: "/asset/b00b0ff0b11ebd47f7c6f57614c046dbbd204e84bf01178baf2be3713a206eb7",
+      })
+
+    // fetch assetLCAD with ID hard coded 
+   , !process.env.IS_ELEMENTS
+    ? O.empty()
+    : O.of({
+        category: "lcad",
+        method: "GET",
+        path: "/asset/0e99c1a6da379d1f4151fb9df90449d40d0608f6cb33a5bcbfc8c265f42bab0a",
+      })
 
     // fetch more txs for asset page
     , moreSTxs$.map(d       => ({ category: 'asset-txs-more', method: 'GET', path: `/asset/${d.asset_id}/txs/chain/${d.last_txid}` }))

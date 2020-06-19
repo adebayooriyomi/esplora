@@ -1,8 +1,8 @@
 import Snabbdom from 'snabbdom-pragma'
-
 import layout from './layout'
+import highlight from "./asset-highlight";
 
-export default ({ assetMap, t, ...S }) => {
+export default ({ assetMap, assetHighlight, t, ...S }) => {
 
   const assets = Object.entries(assetMap)
     .map(([ asset_id, [ domain, ticker, name ] ]) => ({ asset_id, domain, ticker, name  }))
@@ -11,10 +11,10 @@ export default ({ assetMap, t, ...S }) => {
   return layout(
     <div>
       
-        <div className="container">
+      <div className="container">
          <h1 className="tab-heading">{t`Assets Directory`}</h1>
-        </div>
-      
+      </div>
+      {highlight(assetHighlight, t)}
 
       <div className="container">
         { !assets.length ? <p>{t`No registered assets`}</p>
