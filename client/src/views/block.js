@@ -135,7 +135,7 @@ export default ({ t, block: b, blockStatus: status, blockTxs, openTx, spends, op
       </div>
     </div>
   </div>
-, { t, page, ...S })
+, { t, activeTab:"recentBlocks", page, ...S })
 
 const txsShownText = (total, start, shown, t) =>
   (total > perPage && shown > 0)

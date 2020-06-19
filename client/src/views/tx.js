@@ -32,7 +32,7 @@ export default ({ t, tx, tipHeight, spends, openTx, page, ...S }) => tx && S.txA
       {txBox(tx, { openTx, tipHeight, t, spends, query: page.query, ...S })}
     </div>
   </div>
-, { t, page, ...S })
+, { t, activeTab:"recentTxs", page, ...S })
 
 const confirmationText = (status, tipHeight, t) =>
   !status.confirmed ? t`Unconfirmed` : tipHeight ? t`${tipHeight - status.block_height + 1} Confirmations` : t`Confirmed`

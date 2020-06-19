@@ -246,7 +246,7 @@ export default ({ t, asset, assetTxs, goAsset, openTx, spends, tipHeight, loadin
         </div>
       </div>
     </div>
-  , { t, ...S })
+  , { t, activeTab:"Assets", ...S })
 }
 
 const txsShownTextIssued = (total, start, shown, t) =>

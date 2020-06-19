@@ -10,11 +10,11 @@ export default ({ assetMap, t, ...S }) => {
 
   return layout(
     <div>
-      <div className="jumbotron jumbotron-fluid h-auto">
+      
         <div className="container">
-          <h1>{t`Registered assets`}</h1>
+         <h1 className="tab-heading">{t`Assets Directory`}</h1>
         </div>
-      </div>
+      
 
       <div className="container">
         { !assets.length ? <p>{t`No registered assets`}</p>
@@ -39,6 +39,6 @@ export default ({ assetMap, t, ...S }) => {
         }
       </div>
     </div>
-  , { assetMap, t, ...S }
+  , { assetMap, activeTab:"Assets", t, ...S }
   )
 }

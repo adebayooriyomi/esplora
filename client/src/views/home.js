@@ -7,21 +7,13 @@ const isTouch = process.browser && ('ontouchstart' in window)
 
 const homeLayout = (body, { t, activeTab, ...S }) => layout(
   <div>
-    <div className="title-bar-container">
-      <div className="title-bar-recent">
-        <h1>
-          <a href="." class={{ active: activeTab == 'recentBlocks' }}>Blocks</a>
-          <a href="tx/recent" class={{ active: activeTab == 'recentTxs' }}>Transactions</a>
-        </h1>
-      </div>
-    </div>
-
     { body }
   </div>
-, { t, ...S })
+, { t, activeTab, ...S })
 
 export const recentBlocks = ({ t, blocks, loading, ...S }) => homeLayout(
   <div className="container">
+    <h1 className="tab-heading">Blocks</h1>
     <div className="blocks-table">
       <div className="blocks-table-row header">
         <div className="blocks-table-cell">{t`Height`}</div>
@@ -76,6 +68,7 @@ const pagingNav = ({ nextBlocks, prevBlocks, t }) =>
 
 export const recentTxs = ({ mempoolRecent, t, ...S }) => homeLayout(
   <div className="container">
+    <h1 className="tab-heading">Transactions</h1>
     { !mempoolRecent ? <img src="img/Loading.gif" className="loading-delay" />
     : !mempoolRecent.length ? <p>{t`No recent transactions`}</p>
     : <div className="transactions-table">

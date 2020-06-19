@@ -49,7 +49,7 @@ a, a:link, a:visited, a:hover, a:focus {
   background-image: linear-gradient(-90deg, rgba(150, 101, 26, 1) 0%, rgba(115, 71, 28, 1) 18%, rgba(76, 52, 35, 1) 33%, rgba(33, 36, 41, 1) 58%, rgba(14, 16, 17, 1) 100%);
   position: relative;
   z-index: 10;
-  margin-bottom: 40px;
+  padding: 20px;
 }
 
 .nav-container{
@@ -1298,28 +1298,38 @@ body::after{
   padding-left: 27px;
 }
 
-.title-bar-recent {
-  display: inline-block;
-  height: 50px;
-  width: auto;
-  margin: 0 auto;
-  height: 42px;
+.navbar-secondary{
+  background-color: rgb(32, 39, 45);
+  width: 100%;
 }
 
-.title-bar-recent h1 {
+.title-bar-recent{
+  display: flex;
+}
+
+.title-bar-recent {
+  font-size: 18px;
+  line-height: 3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.title-bar-recent a{
+  color: #a9b1b6;
+  font-weight: bold;
+  margin-right: 60px;
+}
+
+.title-bar-recent .active{
+  border-bottom: solid 2px #45b0a3;
+  color: white;
+}
+
+.tab-heading {
   font-size: 24px;
   font-weight: bold;
-}
-
-.title-bar-recent h1 a {
-  color: #a9b1b6;
-  margin-right: 25px;
-  cursor: pointer;
-}
-
-.title-bar-recent h1 .active {
-  border-bottom: solid 2px #00c3ff;
-  color: #ffffff;
+  padding: 38px 0px;
 }
 
 
