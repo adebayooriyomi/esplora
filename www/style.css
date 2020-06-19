@@ -194,10 +194,7 @@ table th {
 /* HEADER START */
 .jumbotron-fluid {
   background-color: transparent;
-  background-image: linear-gradient(-90deg, rgba(150, 101, 26, 1) 0%, rgba(115, 71, 28, 1) 18%, rgba(76, 52, 35, 1) 33%, rgba(33, 36, 41, 1) 58%, rgba(14, 16, 17, 1) 100%);
   height: 450px;
-  background-repeat: no-repeat;
-  background-size: cover;
   padding-top: calc(76px + 64px);
   margin-bottom: 3.5rem;
 }
@@ -506,7 +503,7 @@ table th {
 /* HEADER END */
 
 body > .container, .navbar > .container, .jumbotron-fluid > .container, .content-wrap > div > .container, footer > .container {
-  max-width: 1000px;
+  max-width: 1200px;
 }
 
 .loading-page, .not-found-page {
@@ -1288,7 +1285,7 @@ body::after{
 
 .title-bar-container {
   width: 100%;
-  max-width: 1000px;
+  max-width: 1200px;
   height: 70px;
   margin: 0 auto;
   padding-left: 27px;
