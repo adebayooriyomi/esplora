@@ -202,7 +202,7 @@ table th {
 /* HEADER START */
 .jumbotron-fluid {
   background-color: transparent;
-  height: 300px;
+  height: 200px;
   margin-bottom: 3.5rem;
 }
 
@@ -1458,6 +1458,15 @@ body::after{
   }
 }
 
+@media only screen and (max-width: 1030px) {
+  .search-bar{
+    width: 700px;
+  }
+  .search-bar input.search-bar-input{
+    width: 85%;
+  }
+}
+
 @media only screen and (max-width: 1000px) {
   .blocks-table .blocks-table-row > div:nth-child(2) {
     width: 250px;
@@ -1536,10 +1545,16 @@ body::after{
 
 @media only screen and (max-width: 990px) {
 
+  .nav-container{
+    padding:0;
+  }
+  .form-inline{
+    width: 100%;
+  }
   .search-bar {
-    width: 560px;
+    width: 100%;
     height: 50px;
-    margin: 35px auto 0 auto;
+    margin-top: 20px;
   }
 
   .search-bar input {
@@ -1549,7 +1564,7 @@ body::after{
   }
 
   .search-bar input.search-bar-input {
-    width: 500px;
+    width: 90%;
     font-size: 18px;
   }
 
@@ -1709,9 +1724,7 @@ body::after{
     position: relative;
   }
 
-  .search-bar {
-    width: 80%;
-  }
+  
 
   .search-bar input.search-bar-input {
     width: 80%;
@@ -1737,7 +1750,6 @@ body::after{
 @media only screen and (max-width: 550px) {
   .navbar .search-bar {
     margin: 25px auto 5px auto;
-    width: 90% !important;
     display: flex;
     flex-direction: row;
     justify-content: space-between;
