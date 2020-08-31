@@ -211,6 +211,35 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , assetIcons$ = !process.env.ASSET_MAP_URL ? O.of({}) :
   reply('asset-icons')
 
+  // Fetch API Logic Start *************************************************
+  , assetList$ = assetMap$.flatMap(assetList => {
+    const assets = Object.entries(assetList).map(([ asset_id ]) => ({ asset_id }))
+    let assetIds = assets.map(assets => assets)
+    return fetchDetails$(assetIds)
+  })
+
+  , fetchDetails$ = (allAssetId) => {
+    let assetObj = {}
+    let responseArray = []
+    allAssetId.map(asset => {
+        fetch('https://blockstream.info/liquid/api/asset/'+asset.asset_id)
+        .then(function(response){
+          return response.json()
+        })
+        .then(function(json){
+          responseArray.push(json)
+          let asset = json
+          assetObj[`${asset.asset_id}`] = asset
+        })
+        .catch(e => {
+          console.log(e);
+        });
+    })
+    return O.of(assetObj)
+  }
+  //state of Details list
+  , assetDetailsList$ = !process.env.ASSET_MAP_URL ? O.of({}): assetList$.share()
+
   // Currently visible view
   , view$ = O.merge(page$.mapTo(null)
                   , goHome$.mapTo('recentBlocks')
@@ -245,7 +274,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , mempool$, mempoolRecent$, feeEst$
                      , tx$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$, addrQR$
-                     , assetMap$, assetIcons$, goAsset$, asset$, assetTxs$
+                     , assetMap$, assetIcons$, assetDetailsList$, goAsset$, asset$, assetTxs$
                      , isReady$, loading$, page$, view$, title$, theme$
                      })
 
