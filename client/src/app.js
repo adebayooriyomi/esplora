@@ -51,7 +51,17 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , last_txids: parseHashes(loc.query.txids)
     , est_chain_seen_count: +loc.query.c || 0
     }))
-  , goAssetList$ = !process.env.IS_ELEMENTS || !process.env.ASSET_MAP_URL ? O.empty() : route('/assets')
+  //, goAssetList$ = !process.env.IS_ELEMENTS || !process.env.ASSET_MAP_URL ? O.empty() : route('/assets/registry')
+  , goAssetList$ = route(process.env.ASSET_MAP_URL).map(loc => {
+    console.log(loc)
+    return(
+        { startIndex: loc.query.start_index != null ? loc.query.start_index : 0,
+          sortField: loc.query.sort_field != null ? loc.query.sort_field : 'name',
+          sortDir: loc.query.sort_dir != null ? loc.query.sort_dir : 'asc',
+          curPage: loc.query.page != null ? loc.query.page : '1'
+        }
+      )
+  })
   // End Elements only
 
 
@@ -116,7 +126,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
 
   // Recent blocks
   , blocks$ = reply('blocks')
-      .map(blocks => S => updateBlocks(S, blocks))
+      .map(blocks => S => {
+        console.log(blocks)
+        console.log(S)
+        return [ ...blocks, ...S ]
+      })
       .startWith([]).scan((S, mod) => mod(S))
       .share()
 
@@ -198,14 +212,25 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     ).startWith(null).scan((S, mod) => mod(S))
 
   // Asset map (elements only)
-  , assetMap$ = !process.env.ASSET_MAP_URL ? O.of({}) :
-      reply('asset-map')
-        // use an empty object if the map fails loading for any reason
-        .merge(extractErrors(HTTP.select('asset-map')).mapTo({}))
 
+  , assetMap$ = !process.env.ASSET_MAP_URL ? O.of([]) :
+      reply('asset-map').startWith([])
+
+  , totalAssets$ = O.of(105)
+      
+  // , assetMap$ = !process.env.ASSET_MAP_URL ? O.of([]) :
+  //     reply('asset-map')
+  //       // use an empty object if the map fails loading for any reason
+  //       .merge(extractErrors(HTTP.select('asset-map')).mapTo({}))
+
+  
   // The minimally required data to start rendering the UI
   // In elements, we block rendering until the assetMap is loaded. Otherwise, we can start immediately.
   , isReady$ = process.env.ASSET_MAP_URL ? assetMap$.mapTo(true).startWith(false) : O.of(true)
+
+  // Asset Icons Response
+  , assetIcons$ = !process.env.ASSET_ICONS_URL ? O.of({}) :
+  reply('asset-icons')
 
   // Currently visible view
   , view$ = O.merge(page$.mapTo(null)
@@ -241,7 +266,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                      , mempool$, mempoolRecent$, feeEst$
                      , tx$, txAnalysis$, openTx$
                      , goAddr$, addr$, addrTxs$, addrQR$
-                     , assetMap$, goAsset$, asset$, assetTxs$
+                     , assetMap$, goAssetList$, totalAssets$, assetIcons$, goAsset$, asset$, assetTxs$
                      , isReady$, loading$, page$, view$, title$, theme$
                      })
 
@@ -323,9 +348,14 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     // elements/liquid only
     //
 
-    // fetch asset map index on page load (once, as a foreground request)
-    , !process.env.ASSET_MAP_URL ? O.empty() : O.of(
-                                { category: 'asset-map',  method: 'GET', path: process.env.ASSET_MAP_URL, bg: true })
+    //fetch asset List 
+    , !process.env.ASSET_MAP_URL ? O.empty() : 
+        goAssetList$.map(d => {
+        return ({ category: 'asset-map',  method: 'GET'
+            , path: `${process.env.ASSET_MAP_URL}?sort_field=${d.sortField}&sort_dir=${d.sortDir}&limit=10&start_index=${d.startIndex}&page=${d.curPage}`
+            , bg: true })
+          })
+        
 
     // fetch asset and its txs
     , !process.env.IS_ELEMENTS ? O.empty() :
@@ -333,6 +363,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
                               , d.last_txids.length
                               ? { category: 'asset-txs',  method: 'GET', path: `/asset/${d.asset_id}/txs/chain/${last(d.last_txids)}` }
                               : { category: 'asset-txs',  method: 'GET', path: `/asset/${d.asset_id}/txs` }])
+
+    // Fetch Asset Icons                             
+    , !process.env.ASSET_ICONS_URL ? O.empty() : O.of(
+      { category: 'asset-icons',  method: 'GET', path: process.env.ASSET_ICONS_URL}) 
+
 
     // fetch more txs for asset page
     , moreSTxs$.map(d       => ({ category: 'asset-txs-more', method: 'GET', path: `/asset/${d.asset_id}/txs/chain/${d.last_txid}` }))
@@ -361,7 +396,7 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
       , state$, view$, block$, blockTxs$, blocks$, tx$, txAnalysis$, spends$, addr$
       , tipHeight$, error$, loading$
       , goSearch$, searchResult$, copy$, store$, navto$, scanning$, scan$
-      , assetMap$
+      , assetMap$, goAssetList$
       , req$, reply$: dropErrors(HTTP.select()).map(r => [ r.request.category, r.req.method, r.req.url, r.body||r.text, r ]) })
 
   // @XXX side-effects outside of drivers
