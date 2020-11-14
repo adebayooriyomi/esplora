@@ -230,13 +230,13 @@
 .sortable::after{
   content: "\25B2";
   font-size: 12px;
-  margin-left:10px;
+  margin-left:4px;
 }
 
 .asc::after{
   content: "\25BC";
   font-size: 12px;
-  margin-left:10px;
+  margin-left:4px;
 }
 
 .sortable:hover {
@@ -273,7 +273,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 1rem;
+  margin-right: 1rem;
   font-size: 1.2rem;
   color: #eee;
 }
@@ -282,7 +282,6 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 0.5rem;
 }
 
 .pagination .pagelink{
@@ -293,6 +292,7 @@
   border-radius: 5px;
   background-color: #22242c;
   color: white;
+  margin: 0 .2rem 0 .2rem;
 }
 
 .pagination .numbers .current{
@@ -301,11 +301,12 @@
 
 .pagination .control{
   display: flex;
-  gap:.5rem;
+  margin: 0 .5rem 0 .5rem;
 }
 
 .pagination .control a{
   color: #00ccff;
+  margin-right:.5rem;
 }
 
 
@@ -322,7 +323,7 @@
 }
 
 @media only screen and (max-width: 850px) {
-
+   
     .asset-label{
       width: 40%;
     }
@@ -333,8 +334,17 @@
     }
 
     /* assets table */
-    div.assets-table-row.header {
-      display:none;
+    div.assets-table-row.header .supply{
+     display: none;
+    }
+
+    div.assets-table::before{
+      content: "Sort By ";
+      margin-left:20px;
+    }
+
+    div.assets-table-row.header .domain{
+      width: 50%;
     }
 
     /* table row (asset) */
@@ -385,6 +395,30 @@
     Label the data
     */
     div.assets-table-cell:before { content: attr(data-label); text-align: left; width: auto;}
+}
+
+
+@media only screen and (max-width: 500px) {
+  .pagination .numbers{
+    display: none;
+  }
+  .pagination .next, .pagination .prev{
+    width: 85px;
+    display: flex;
+  }
+  .pagination .next::before {
+    content: "Next";
+  }
+  .pagination .prev::after {
+    content: "Prev";
+  }
+}
+
+/* smallest iPhone */
+@media only screen and (max-width: 320px) {
+  .assets-table .assets-table-row.header .assets-table-cell{
+    font-size: 12px;
+  }
 }
 
 

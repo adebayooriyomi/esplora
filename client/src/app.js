@@ -52,13 +52,12 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     , est_chain_seen_count: +loc.query.c || 0
     }))
   //, goAssetList$ = !process.env.IS_ELEMENTS || !process.env.ASSET_MAP_URL ? O.empty() : route('/assets/registry')
-  , goAssetList$ = route(process.env.ASSET_MAP_URL).map(loc => {
-    console.log(loc)
+  , goAssetList$ = !process.env.IS_ELEMENTS || !process.env.ASSET_MAP_URL ? O.empty() : route(process.env.ASSET_MAP_URL).map(loc => {
     return(
         { startIndex: loc.query.start_index != null ? loc.query.start_index : 0,
           sortField: loc.query.sort_field != null ? loc.query.sort_field : 'name',
           sortDir: loc.query.sort_dir != null ? loc.query.sort_dir : 'asc',
-          curPage: loc.query.page != null ? loc.query.page : '1'
+          limit: loc.query.limit != null ? loc.query.limit : 50,
         }
       )
   })
@@ -127,8 +126,6 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   // Recent blocks
   , blocks$ = reply('blocks')
       .map(blocks => S => {
-        console.log(blocks)
-        console.log(S)
         return [ ...blocks, ...S ]
       })
       .startWith([]).scan((S, mod) => mod(S))
@@ -216,13 +213,8 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
   , assetMap$ = !process.env.ASSET_MAP_URL ? O.of([]) :
       reply('asset-map').startWith([])
 
-  , totalAssets$ = O.of(105)
+  , totalAssets$ = O.of(500)
       
-  // , assetMap$ = !process.env.ASSET_MAP_URL ? O.of([]) :
-  //     reply('asset-map')
-  //       // use an empty object if the map fails loading for any reason
-  //       .merge(extractErrors(HTTP.select('asset-map')).mapTo({}))
-
   
   // The minimally required data to start rendering the UI
   // In elements, we block rendering until the assetMap is loaded. Otherwise, we can start immediately.
@@ -349,13 +341,11 @@ export default function main({ DOM, HTTP, route, storage, scanner: scan$, search
     //
 
     //fetch asset List 
-    , !process.env.ASSET_MAP_URL ? O.empty() : 
-        goAssetList$.map(d => {
+    , goAssetList$.map(d => {
         return ({ category: 'asset-map',  method: 'GET'
-            , path: `${process.env.ASSET_MAP_URL}?sort_field=${d.sortField}&sort_dir=${d.sortDir}&limit=10&start_index=${d.startIndex}&page=${d.curPage}`
+            , path: `${process.env.ASSET_MAP_URL}?sort_field=${d.sortField}&sort_dir=${d.sortDir}&limit=${d.limit}&start_index=${d.startIndex}`
             , bg: true })
           })
-        
 
     // fetch asset and its txs
     , !process.env.IS_ELEMENTS ? O.empty() :
